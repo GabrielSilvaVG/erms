@@ -33,7 +33,7 @@ namespace ERMS.Models
         [Required]
         public int TotalSlots { get; set; }
     
-        public int OccupiedSlots { get; set; }
+        public int OccupiedSlots { get; set; } = 0;
 
         [Required]
         public int OrganizerId { get; set; }
