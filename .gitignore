@@ -1,0 +1,25 @@
+## Backend (.NET)
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.db
+*.db-shm
+*.db-wal
+
+## Frontend (Node)
+node_modules/
+.next/
+out/
+.env.local
+.env.production.local
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+## Database
+*.mdf
+*.ldf
