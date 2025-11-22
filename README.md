@@ -44,7 +44,7 @@ erms/
 - React Hooks
 - Axios/Fetch API
 
-## Melhorias em relação ao projeto Java
+## Sobre
 
 ✅ API REST moderna com documentação Swagger  
 ✅ Frontend separado com Next.js e Tailwind CSS  
