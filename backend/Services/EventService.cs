@@ -20,6 +20,11 @@ namespace ERMS.Services
             if (!organizerExists)
                 throw new KeyNotFoundException($"Organizer with ID {dto.OrganizerId} not found.");
             
+            // Validate title uniqueness
+            var titleExists = await _context.Events.AnyAsync(e => e.Title == dto.Title);
+            if (titleExists)
+                throw new InvalidOperationException($"An event with the title '{dto.Title}' already exists.");
+            
             var newEvent = new Event
             {
                 Title = dto.Title,
@@ -94,7 +99,17 @@ namespace ERMS.Services
         // delete event
         public async Task DeleteAsync(int id)
         {
-            var eventToDelete = await _context.Events.FindAsync(id) ?? throw new KeyNotFoundException($"Event with ID {id} not found.");
+            var eventToDelete = await _context.Events
+                .Include(e => e.Registrations)
+                .FirstOrDefaultAsync(e => e.Id == id)
+                ?? throw new KeyNotFoundException($"Event with ID {id} not found.");
+            
+            // Remove all registrations first (cascade delete)
+            if (eventToDelete.Registrations.Count != 0)
+            {
+                _context.Registrations.RemoveRange(eventToDelete.Registrations);
+            }
+            
             _context.Events.Remove(eventToDelete);
             await _context.SaveChangesAsync();
         }

@@ -51,7 +51,10 @@ namespace ERMS.Services
         // all registrations
         public async Task<IEnumerable<Registration>> GetAllAsync() 
         {
-            var registrations = await _context.Registrations.ToListAsync();
+            var registrations = await _context.Registrations
+                .Include(r => r.Event)
+                .Include(r => r.Participant)
+                .ToListAsync();
             return registrations;
         }
 
@@ -59,6 +62,8 @@ namespace ERMS.Services
         public async Task<IEnumerable<Registration>> GetByEventIdAsync(int eventId)
         {
             var registrations = await _context.Registrations
+                .Include(r => r.Event)
+                .Include(r => r.Participant)
                 .Where(r => r.EventId == eventId)
                 .ToListAsync();
             return registrations;
@@ -67,13 +72,18 @@ namespace ERMS.Services
         // registration by id
         public async Task<Registration?> GetByIdAsync(int id)
         {
-            return await _context.Registrations.FindAsync(id);
+            return await _context.Registrations
+                .Include(r => r.Event)
+                .Include(r => r.Participant)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         // all registrations for a participant
         public async Task<IEnumerable<Registration>> GetByParticipantIdAsync(int participantId)
         {
             var registrations = await _context.Registrations
+                .Include(r => r.Event)
+                .Include(r => r.Participant)
                 .Where(r => r.ParticipantId == participantId)
                 .ToListAsync();
             return registrations;
