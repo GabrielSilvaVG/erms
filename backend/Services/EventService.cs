@@ -14,6 +14,12 @@ namespace ERMS.Services
         {
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto), "Event data cannot be null");
+            
+            // Validate that organizer exists
+            var organizerExists = await _context.Organizers.AnyAsync(o => o.Id == dto.OrganizerId);
+            if (!organizerExists)
+                throw new KeyNotFoundException($"Organizer with ID {dto.OrganizerId} not found.");
+            
             var newEvent = new Event
             {
                 Title = dto.Title,
@@ -22,6 +28,7 @@ namespace ERMS.Services
                 Date = dto.Date,
                 Description = dto.Description,
                 TotalSlots = dto.TotalSlots,
+                OrganizerId = dto.OrganizerId,
                 Status = Enums.EventStatus.Scheduled // Default status for new events
             };
             await _context.Events.AddAsync(newEvent);
@@ -49,7 +56,7 @@ namespace ERMS.Services
         // update event
         public async Task UpdateAsync(int id, UpdateEventDTO dto)
         {
-            var eventToUpdate = _context.Events.Find(id) ?? throw new KeyNotFoundException($"Event with ID {id} not found.");
+            var eventToUpdate = await _context.Events.FindAsync(id) ?? throw new KeyNotFoundException($"Event with ID {id} not found.");
 
             if (!string.IsNullOrEmpty(dto.Title))
             {

@@ -65,11 +65,9 @@ namespace ERMS.Services
         }
 
         // registration by id
-        public async Task<Registration?> GetByIdAsync(int id)// registration by id
+        public async Task<Registration?> GetByIdAsync(int id)
         {
-            var registration = await _context.Registrations.FindAsync(id) ?? 
-            throw new KeyNotFoundException($"Registration with ID {id} not found.");
-            return registration;
+            return await _context.Registrations.FindAsync(id);
         }
 
         // all registrations for a participant

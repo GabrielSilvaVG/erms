@@ -61,14 +61,14 @@ namespace ERMS.Services
 
 
         // login user
-        public async Task<AuthResponseDTO?> LoginAsync(LoginDTO dto)
+        public async Task<AuthResponseDTO> LoginAsync(LoginDTO dto)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
             {
-                return null; // Invalid credentials
+                throw new UnauthorizedAccessException("Invalid email or password.");
             }
 
             // Generate JWT token

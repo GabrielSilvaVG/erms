@@ -26,6 +26,9 @@ namespace ERMS.DTOs
         [Required(ErrorMessage = "Total slots is required")]
         [Range(1, 10000, ErrorMessage = "Total slots must be between 1 and 10000")]
         public int TotalSlots { get; set; }
+
+        [Required(ErrorMessage = "Organizer ID is required")]
+        public int OrganizerId { get; set; }
     }
 
     // DTO for updating an event (all fields optional for partial update)
