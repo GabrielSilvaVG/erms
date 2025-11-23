@@ -43,6 +43,20 @@ namespace ERMS.DTOs
         public UserType UserType { get; set; }
     }
 
+    // DTO for updating user data (all fields optional)
+    public class UpdateUserDTO
+    {
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 60 characters")]
+        public string? Name { get; set; }
+
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        [StringLength(60, ErrorMessage = "Email cannot exceed 60 characters")]
+        public string? Email { get; set; }
+        
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters")]
+        public string? Password { get; set; }
+    }
+
     // DTO for authentication response with token
     public class AuthResponseDTO
     {
