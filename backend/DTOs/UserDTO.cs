@@ -19,7 +19,9 @@ namespace ERMS.DTOs
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters")]
         public string Password { get; set; } = string.Empty;
 
+
         [Required(ErrorMessage = "User type is required")]
+        [EnumDataType(typeof(UserType), ErrorMessage = "Invalid user type")]
         public UserType UserType { get; set; }
     }
 

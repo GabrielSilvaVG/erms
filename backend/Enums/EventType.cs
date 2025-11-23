@@ -2,16 +2,18 @@ namespace ERMS.Enums
 {
     public enum EventType
     {
-        Conference,
-        Workshop,
-        Seminar,
-        Course,
-        Meeting,
-        Exhibition,
-        Festival,
-        Competition,
-        Networking,
-        Training,
+        PartiesShows,
+        CoursesWorkshops,
+        CongressesLectures,
+        Sports,
+        Gastronomy,
+        ArtCinemaLeisure,
+        HealthWellness,
+        Kids,
+        ReligionSpirituality,
+        GamesGeek,
+        FashionBeauty,
+        Political,
         Other
     }
 }

@@ -15,15 +15,12 @@ namespace ERMS.Services
         // register user
         public async Task<User> RegisterAsync(RegisterUserDTO dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto), "Registration data cannot be null");
-
             // Check if email already exists
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
             
             if (existingUser != null)
-                throw new InvalidOperationException($"Email '{dto.Email}' is already registered.");
+                throw new InvalidOperationException("Email is already registered.");
 
             // Create the appropriate user type based on UserType enum
             User user = dto.UserType switch
@@ -46,7 +43,7 @@ namespace ERMS.Services
                     Email = dto.Email,
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
                 },
-                _ => throw new ArgumentException($"Invalid user type: {dto.UserType}")
+                _ => throw new InvalidOperationException("Invalid user type") // Nunca será atingido (validado no DTO)
             };
 
             // Add to DbSet
@@ -111,7 +108,7 @@ namespace ERMS.Services
         public async Task UpdateAsync(int id, UpdateUserDTO dto)
         {
             var user = await _context.Users.FindAsync(id) 
-                ?? throw new KeyNotFoundException($"User with ID {id} not found.");
+                ?? throw new KeyNotFoundException("User not found.");
             
             if (!string.IsNullOrWhiteSpace(dto.Name))
                 user.Name = dto.Name;
@@ -123,7 +120,7 @@ namespace ERMS.Services
                     .AnyAsync(u => u.Email == dto.Email && u.Id != id);
                 
                 if (emailExists)
-                    throw new InvalidOperationException($"Email '{dto.Email}' is already in use.");
+                    throw new InvalidOperationException("Email is already in use.");
                 
                 user.Email = dto.Email;
             }
@@ -137,7 +134,7 @@ namespace ERMS.Services
         // delete user
         public async Task DeleteAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id) ?? throw new KeyNotFoundException($"User with ID {id} not found.");
+            var user = await _context.Users.FindAsync(id) ?? throw new KeyNotFoundException("User not found.");
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
