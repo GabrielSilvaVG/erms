@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register services
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

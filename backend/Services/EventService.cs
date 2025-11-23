@@ -32,13 +32,17 @@ namespace ERMS.Services
         // event by id
         public async Task<Event?> GetByIdAsync(int id)
         {
-            return await _context.Events.FindAsync(id);
+            return await _context.Events
+                .Include(e => e.Organizer)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         // all events
         public async Task<IEnumerable<Event>> GetAllAsync()
         {
-            var events = await _context.Events.ToListAsync(); 
+            var events = await _context.Events
+                .Include(e => e.Organizer)
+                .ToListAsync(); 
             return events;
         }
 
