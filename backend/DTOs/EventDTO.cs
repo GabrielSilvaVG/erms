@@ -28,32 +28,27 @@ namespace ERMS.DTOs
         public int TotalSlots { get; set; }
     }
 
-    // DTO for updating an event
+    // DTO for updating an event (all fields optional for partial update)
     public class UpdateEventDTO
     {
-        [Required(ErrorMessage = "Title is required")]
         [StringLength(60, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 60 characters")]
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; }
 
-        [Required(ErrorMessage = "Event type is required")]
-        public EventType Type { get; set; }
+        public EventType? Type { get; set; }
 
-        [Required(ErrorMessage = "Location is required")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Location must be between 3 and 100 characters")]
-        public string Location { get; set; } = string.Empty;
+        public string? Location { get; set; }
 
-        [Required(ErrorMessage = "Event status is required")]
-        public EventStatus Status { get; set; }
+        public EventStatus? Status { get; set; }
 
-        [Required(ErrorMessage = "Date is required")]
-        public DateTime Date { get; set; }
+        [DataType(DataType.Date, ErrorMessage = "Invalid date format")]
+        public DateTime? Date { get; set; }
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = "Total slots is required")]
         [Range(1, 10000, ErrorMessage = "Total slots must be between 1 and 10000")]
-        public int TotalSlots { get; set; }
+        public int? TotalSlots { get; set; }
     }
 
     // DTO for returning event data

@@ -11,6 +11,8 @@ namespace ERMS.Services
         private readonly AppDbContext _context = context;
         private readonly JwtService _jwtService = jwtService;
 
+
+        // register user
         public async Task<User> RegisterAsync(RegisterUserDTO dto)
         {
             if (dto == null)
@@ -57,6 +59,8 @@ namespace ERMS.Services
             return user;
         }
 
+
+        // login user
         public async Task<AuthResponseDTO?> LoginAsync(LoginDTO dto)
         {
             var user = await _context.Users
@@ -88,17 +92,22 @@ namespace ERMS.Services
                 User = userResponse
             };
         }
+
+        // user by id
         public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
 
+        // all users
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             var users = await _context.Users.ToListAsync();
             return users;
         }
 
+
+        // update user
         public async Task UpdateAsync(int id, UpdateUserDTO dto)
         {
             var user = await _context.Users.FindAsync(id) 
@@ -124,6 +133,8 @@ namespace ERMS.Services
             
             await _context.SaveChangesAsync();
         }
+
+        // delete user
         public async Task DeleteAsync(int id)
         {
             var user = await _context.Users.FindAsync(id) ?? throw new KeyNotFoundException($"User with ID {id} not found.");

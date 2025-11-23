@@ -1,6 +1,7 @@
 using ERMS.Data;
 using ERMS.DTOs;
 using ERMS.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ERMS.Services
 {
@@ -8,34 +9,62 @@ namespace ERMS.Services
     {
         private readonly AppDbContext _context = context;
 
-        public Task<Registration> CreateAsync(int eventId, int participantId)
+
+        // create registration
+        public async Task<Registration> CreateAsync(int eventId, int participantId)
         {
-            throw new NotImplementedException();
+            var registration = new Registration
+            {
+                EventId = eventId,
+                ParticipantId = participantId,
+                RegistrationDate = DateTime.UtcNow
+            };
+
+            await _context.Registrations.AddAsync(registration);
+            await _context.SaveChangesAsync();
+
+            return registration;
         }
 
-        public Task DeleteAsync(int id)
+        // all registrations
+        public async Task<IEnumerable<Registration>> GetAllAsync() 
         {
-            throw new NotImplementedException();
+            var registrations = await _context.Registrations.ToListAsync();
+            return registrations;
         }
 
-        public Task<IEnumerable<Registration>> GetAllAsync()
+        // all registrations for an event
+        public async Task<IEnumerable<Registration>> GetByEventIdAsync(int eventId)
         {
-            throw new NotImplementedException();
+            var registrations = await _context.Registrations
+                .Where(r => r.EventId == eventId)
+                .ToListAsync();
+            return registrations;
         }
 
-        public Task<IEnumerable<Registration>> GetByEventIdAsync(int eventId)
+        // registration by id
+        public async Task<Registration?> GetByIdAsync(int id)// registration by id
         {
-            throw new NotImplementedException();
+            var registration = await _context.Registrations.FindAsync(id) ?? 
+            throw new KeyNotFoundException($"Registration with ID {id} not found.");
+            return registration;
         }
 
-        public Task<Registration?> GetByIdAsync(int id)
+        // all registrations for a participant
+        public async Task<IEnumerable<Registration>> GetByParticipantIdAsync(int participantId)
         {
-            throw new NotImplementedException();
+            var registrations = await _context.Registrations
+                .Where(r => r.ParticipantId == participantId)
+                .ToListAsync();
+            return registrations;
         }
 
-        public Task<IEnumerable<Registration>> GetByParticipantIdAsync(int participantId)
+        // delete registration
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var registration = await _context.Registrations.FindAsync(id) ?? throw new KeyNotFoundException($"Registration with ID {id} not found.");
+            _context.Registrations.Remove(registration);
+            await _context.SaveChangesAsync();
         }
     }
 }
