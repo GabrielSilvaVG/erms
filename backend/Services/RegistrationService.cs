@@ -1,17 +1,19 @@
 using ERMS.Data;
+using ERMS.DTOs;
 using ERMS.Models;
 
 namespace ERMS.Services
 {
-    public class RegistrationService(AppDbContext context) : IGenericService<Registration, int>
+    public class RegistrationService(AppDbContext context) : IRegistrationService
     {
         private readonly AppDbContext _context = context;
 
-        public Task<Registration> InsertAsync(Registration entity)
+        public Task<Registration> CreateAsync(int eventId, int participantId)
         {
             throw new NotImplementedException();
         }
-        public Task<Registration?> GetByIdAsync(int id)
+
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -21,11 +23,17 @@ namespace ERMS.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Registration entity)
+        public Task<IEnumerable<Registration>> GetByEventIdAsync(int eventId)
         {
             throw new NotImplementedException();
         }
-        public Task DeleteAsync(int id)
+
+        public Task<Registration?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Registration>> GetByParticipantIdAsync(int participantId)
         {
             throw new NotImplementedException();
         }
