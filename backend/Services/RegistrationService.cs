@@ -108,18 +108,28 @@ namespace Eventra.Services
         // delete registration
         public async Task DeleteAsync(int id)
         {
-            var registration = await _context.Registrations.FindAsync(id) 
-                ?? throw new KeyNotFoundException($"Registration with ID {id} not found.");
-            
-            // Get the event and decrement occupied slots
-            var eventEntity = await _context.Events.FindAsync(registration.EventId);
-            if (eventEntity != null && eventEntity.OccupiedSlots > 0)
+            using var transaction = await _context.Database.BeginTransactionAsync();// if any step fails, roll back everything
+            try
             {
-                eventEntity.OccupiedSlots--;
-            }
+                var registration = await _context.Registrations.FindAsync(id) 
+                    ?? throw new KeyNotFoundException($"Registration with ID {id} not found.");
 
-            _context.Registrations.Remove(registration);
-            await _context.SaveChangesAsync();
+                // Get the event and decrement occupied slots
+                var eventEntity = await _context.Events.FindAsync(registration.EventId);
+                if (eventEntity != null && eventEntity.OccupiedSlots > 0)
+                {
+                    eventEntity.OccupiedSlots--;
+                }
+
+                _context.Registrations.Remove(registration);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

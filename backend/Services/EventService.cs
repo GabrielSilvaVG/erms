@@ -16,16 +16,20 @@ namespace Eventra.Services
             var organizerExists = await _context.Organizers.AnyAsync(o => o.Id == dto.OrganizerId);
             if (!organizerExists)
                 throw new KeyNotFoundException($"Organizer  not found.");
-            
+
             // Validate title uniqueness
             var titleExists = await _context.Events.AnyAsync(e => e.Title == dto.Title);
             if (titleExists)
                 throw new InvalidOperationException("An event with this title already exists.");
-            
+
             // Validate event date is not in the past
             if (dto.Date < DateTime.UtcNow)
                 throw new InvalidOperationException("Cannot create an event with a date in the past.");
-            
+
+            // Validate TotalSlots > 0
+            if (dto.TotalSlots <= 0)
+                throw new InvalidOperationException("Total slots must be greater than zero.");
+
             var newEvent = new Event
             {
                 Title = dto.Title,

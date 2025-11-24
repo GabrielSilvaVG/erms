@@ -31,7 +31,7 @@ namespace Eventra.Data
                     Id = 1,
                     Name = "Administrator",
                     Email = "admin@Eventra.com",
-                    PasswordHash = "hashed_password"
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123")
                 }
             );
         }
