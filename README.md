@@ -2,10 +2,12 @@
   <h1> Eventra</h1>
   <p><strong>API REST para Gerenciamento de Eventos e Inscrições</strong></p>
   
-  ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)
-  ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)
-  ![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs)
-  ![License](https://img.shields.io/badge/license-MIT-green)
+  <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" />
+  <img src="https://img.shields.io/badge/.NET-6F42C1?style=flat-square&logo=dotnet&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-4B7DA9?style=flat-square&logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Next.js-222222?style=flat-square&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" />
 </div>
 
 ---
