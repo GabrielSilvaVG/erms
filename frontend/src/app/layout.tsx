@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'ERMS - Event Registration Management System',
+  title: 'Eventra - Event Management Platform',
   description: 'Sistema de Gerenciamento de Eventos e Inscrições',
 }
 

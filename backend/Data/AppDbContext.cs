@@ -1,8 +1,8 @@
-using ERMS.Models;
-using ERMS.Enums;
+using Eventra.Models;
+using Eventra.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace ERMS.Data
+namespace Eventra.Data
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
@@ -30,7 +30,7 @@ namespace ERMS.Data
                 {
                     Id = 1,
                     Name = "Administrator",
-                    Email = "admin@erms.com",
+                    Email = "admin@Eventra.com",
                     PasswordHash = "hashed_password"
                 }
             );

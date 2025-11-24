@@ -1,9 +1,9 @@
-using ERMS.Data;
-using ERMS.DTOs;
-using ERMS.Models;
+using Eventra.Data;
+using Eventra.DTOs;
+using Eventra.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ERMS.Services
+namespace Eventra.Services
 {
     public class RegistrationService(AppDbContext context) : IRegistrationService
     {

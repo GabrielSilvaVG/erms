@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using ERMS.Enums;
+using Eventra.Enums;
 
-namespace ERMS.DTOs
+namespace Eventra.DTOs
 {
     // DTO for registering a new user
     public class RegisterUserDTO

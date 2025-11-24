@@ -1,5 +1,5 @@
-using ERMS.Data;
-using ERMS.Services;
+using Eventra.Data;
+using Eventra.Services;
 using Microsoft.EntityFrameworkCore;
 
 

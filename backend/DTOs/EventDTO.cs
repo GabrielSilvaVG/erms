@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using ERMS.Enums;
+using Eventra.Enums;
 
-namespace ERMS.DTOs
+namespace Eventra.DTOs
 {
     // DTO for creating a new event
     public class CreateEventDTO

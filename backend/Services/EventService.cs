@@ -1,9 +1,9 @@
-using ERMS.Data;
-using ERMS.DTOs;
-using ERMS.Models;
+using Eventra.Data;
+using Eventra.DTOs;
+using Eventra.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ERMS.Services
+namespace Eventra.Services
 {
     public class EventService(AppDbContext context) : IEventService
     {
@@ -12,18 +12,15 @@ namespace ERMS.Services
         // create event
         public async Task<Event> CreateAsync(CreateEventDTO dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto), "Event data cannot be null");
-            
             // Validate that organizer exists
             var organizerExists = await _context.Organizers.AnyAsync(o => o.Id == dto.OrganizerId);
             if (!organizerExists)
-                throw new KeyNotFoundException($"Organizer with ID {dto.OrganizerId} not found.");
+                throw new KeyNotFoundException($"Organizer  not found.");
             
             // Validate title uniqueness
             var titleExists = await _context.Events.AnyAsync(e => e.Title == dto.Title);
             if (titleExists)
-                throw new InvalidOperationException($"An event with the title '{dto.Title}' already exists.");
+                throw new InvalidOperationException("An event with this title already exists.");
             
             var newEvent = new Event
             {
@@ -68,7 +65,7 @@ namespace ERMS.Services
                 var titleExists = await _context.Events
                     .AnyAsync(e => e.Title == dto.Title && e.Id != id);
                 if (titleExists)
-                    throw new InvalidOperationException($"An event with the title '{dto.Title}' already exists.");
+                    throw new InvalidOperationException("An event with this title already exists.");
                 eventToUpdate.Title = dto.Title;
             }
             if (dto.Type.HasValue)
@@ -87,7 +84,7 @@ namespace ERMS.Services
                 // Validate that new total slots is not less than occupied slots
                 if (dto.TotalSlots.Value < eventToUpdate.OccupiedSlots)
                     throw new InvalidOperationException(
-                        $"Cannot reduce total slots to {dto.TotalSlots.Value}. " +
+                        "Cannot reduce total slots to less than the number of occupied slots. " +
                         $"There are already {eventToUpdate.OccupiedSlots} participants registered.");
                 
                 eventToUpdate.TotalSlots = dto.TotalSlots.Value;

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ERMS.Enums;
+using Eventra.Enums;
 
-namespace ERMS.Models
+namespace Eventra.Models
 {
     public class Event
     {

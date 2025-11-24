@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ERMS.DTOs
+namespace Eventra.DTOs
 {
     // DTO for creating a new registration (participant subscribing to event)
     public class CreateRegistrationDTO

@@ -1,4 +1,4 @@
-namespace ERMS.Enums
+namespace Eventra.Enums
 {
     public enum UserType
     {

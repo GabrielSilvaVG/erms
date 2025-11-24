@@ -1,6 +1,6 @@
-using ERMS.Models;
+using Eventra.Models;
 
-namespace ERMS.Services
+namespace Eventra.Services
 {
     public interface IRegistrationService
     {

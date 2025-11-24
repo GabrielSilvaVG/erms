@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ERMS.Migrations
+namespace Eventra.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -97,7 +97,7 @@ namespace ERMS.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "UserType" },
-                values: new object[] { 1, "admin@erms.com", "Administrator", "hashed_password", 0 });
+                values: new object[] { 1, "admin@Eventra.com", "Administrator", "hashed_password", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_OrganizerId",

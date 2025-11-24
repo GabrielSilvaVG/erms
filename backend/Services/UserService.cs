@@ -1,10 +1,10 @@
-using ERMS.Data;
-using ERMS.DTOs;
-using ERMS.Models;
+using Eventra.Data;
+using Eventra.DTOs;
+using Eventra.Models;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 
-namespace ERMS.Services
+namespace Eventra.Services
 {
     public class UserService(AppDbContext context, JwtService jwtService) : IUserService
     {

@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ERMS.Services
+namespace Eventra.Services
 {
     public class JwtService(IConfiguration configuration)
     {

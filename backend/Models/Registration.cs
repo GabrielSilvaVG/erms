@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ERMS.Models
+namespace Eventra.Models
 {
     public class Registration
     {

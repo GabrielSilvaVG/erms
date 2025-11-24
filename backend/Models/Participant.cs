@@ -1,6 +1,6 @@
-using ERMS.Enums;
+using Eventra.Enums;
 
-namespace ERMS.Models
+namespace Eventra.Models
 {
     public class Participant : User
     {

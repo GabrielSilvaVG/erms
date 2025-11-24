@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ERMS.Controllers;
+namespace Eventra.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-# ERMS - Event Registration Management System
+# Eventra - Event Registration Management System
 
 Sistema de gerenciamento de eventos e inscrições
 
@@ -11,7 +11,7 @@ Sistema de gerenciamento de eventos e inscrições
 ## Estrutura
 
 ```
-erms/
+Eventra/
 ├── backend/        # API REST
 └── frontend/       # Interface web
 ```
