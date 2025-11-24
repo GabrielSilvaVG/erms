@@ -144,5 +144,10 @@ Controllers → Services → Data (EF Core) → MySQL
 ** Concluído:** Backend MVP completo  
 ** Em desenvolvimento:** Frontend Next.js  
 
----
+> **Observação:** O Swagger (documentação da API) só está disponível em ambiente de desenvolvimento.
+> Para acessar, rode o backend com:
+> ```
+> $env:ASPNETCORE_ENVIRONMENT="Development"; dotnet run
+> ```
+> Depois acesse: `https://localhost:5001/swagger`
 

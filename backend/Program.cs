@@ -73,6 +73,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// $env:ASPNETCORE_ENVIRONMENT="Development"; dotnet run
+// To run the application in Development mode
 
 app.UseHttpsRedirection();
 
