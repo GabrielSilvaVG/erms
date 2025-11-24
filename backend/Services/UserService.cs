@@ -134,9 +134,63 @@ namespace Eventra.Services
         // delete user
         public async Task DeleteAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id) ?? throw new KeyNotFoundException("User not found.");
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            // start transaction - all or nothing
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            
+            try
+            {
+                var user = await _context.Users.FindAsync(id) 
+                    ?? throw new KeyNotFoundException("User not found.");
+
+                // If user is a Participant, delete all their registrations
+                if (user is Participant participant)
+                {
+                    var registrations = await _context.Registrations
+                        .Where(r => r.ParticipantId == id)
+                        .ToListAsync();
+
+                    foreach (var registration in registrations)
+                    {
+                        // Decrement occupied slots for each event
+                        var eventEntity = await _context.Events.FindAsync(registration.EventId);
+                        if (eventEntity != null && eventEntity.OccupiedSlots > 0)
+                        {
+                            eventEntity.OccupiedSlots--;
+                        }
+                    }
+
+                    _context.Registrations.RemoveRange(registrations);
+                }
+
+                // If user is an Organizer, delete all their events (cascade will handle registrations)
+                if (user is Organizer organizer)
+                {
+                    var events = await _context.Events
+                        .Include(e => e.Registrations)
+                        .Where(e => e.OrganizerId == id)
+                        .ToListAsync();
+
+                    // Remove all registrations for these events first
+                    foreach (var eventEntity in events)
+                    {
+                        if (eventEntity.Registrations.Count != 0)
+                        {
+                            _context.Registrations.RemoveRange(eventEntity.Registrations);
+                        }
+                    }
+
+                    _context.Events.RemoveRange(events);
+                }
+
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync(); // Confirma tudo
+            }
+            catch
+            {
+                await transaction.RollbackAsync(); // Desfaz tudo se der erro
+                throw ;
+            }
         }
     }
 }

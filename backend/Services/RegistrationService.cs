@@ -13,39 +13,55 @@ namespace Eventra.Services
         // create registration
         public async Task<Registration> CreateAsync(int eventId, int participantId)
         {
-            // Check if event exists
-            var eventEntity = await _context.Events.FindAsync(eventId)
-                ?? throw new KeyNotFoundException($"Event with ID {eventId} not found.");
-
-            // Check if participant exists
-            var participant = await _context.Participants.FindAsync(participantId)
-                ?? throw new KeyNotFoundException($"Participant with ID {participantId} not found.");
-
-            // Check if participant is already registered for this event
-            var existingRegistration = await _context.Registrations
-                .FirstOrDefaultAsync(r => r.EventId == eventId && r.ParticipantId == participantId);
+            // Start transaction - all or nothing
+            using var transaction = await _context.Database.BeginTransactionAsync();
             
-            if (existingRegistration != null)
-                throw new InvalidOperationException($"Participant is already registered for this event.");
-
-            // Check if event has available slots
-            if (eventEntity.OccupiedSlots >= eventEntity.TotalSlots)
-                throw new InvalidOperationException($"Event is full. No available slots.");
-
-            var registration = new Registration
+            try
             {
-                EventId = eventId,
-                ParticipantId = participantId,
-                RegistrationDate = DateTime.UtcNow
-            };
+                // Check if event exists
+                var eventEntity = await _context.Events.FindAsync(eventId)
+                    ?? throw new KeyNotFoundException($"Event with ID {eventId} not found.");
 
-            // Increment occupied slots
-            eventEntity.OccupiedSlots++;
+                // Check if event date has not passed
+                if (eventEntity.Date < DateTime.UtcNow)
+                    throw new InvalidOperationException("Cannot register for an event that has already occurred.");
 
-            await _context.Registrations.AddAsync(registration);
-            await _context.SaveChangesAsync();
+                // Check if participant exists
+                var participant = await _context.Participants.FindAsync(participantId)
+                    ?? throw new KeyNotFoundException($"Participant with ID {participantId} not found.");
 
-            return registration;
+                // Check if participant is already registered for this event
+                var existingRegistration = await _context.Registrations
+                    .FirstOrDefaultAsync(r => r.EventId == eventId && r.ParticipantId == participantId);
+                
+                if (existingRegistration != null)
+                    throw new InvalidOperationException($"Participant is already registered for this event.");
+
+                // Check if event has available slots
+                if (eventEntity.OccupiedSlots >= eventEntity.TotalSlots)
+                    throw new InvalidOperationException($"Event is full. No available slots.");
+
+                var registration = new Registration
+                {
+                    EventId = eventId,
+                    ParticipantId = participantId,
+                    RegistrationDate = DateTime.UtcNow
+                };
+
+                // Increment occupied slots
+                eventEntity.OccupiedSlots++;
+
+                await _context.Registrations.AddAsync(registration);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return registration;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         // all registrations

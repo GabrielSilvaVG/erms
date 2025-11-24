@@ -22,6 +22,10 @@ namespace Eventra.Services
             if (titleExists)
                 throw new InvalidOperationException("An event with this title already exists.");
             
+            // Validate event date is not in the past
+            if (dto.Date < DateTime.UtcNow)
+                throw new InvalidOperationException("Cannot create an event with a date in the past.");
+            
             var newEvent = new Event
             {
                 Title = dto.Title,
@@ -75,7 +79,13 @@ namespace Eventra.Services
             if (dto.Status.HasValue)
                 eventToUpdate.Status = dto.Status.Value;
             if (dto.Date.HasValue)
+            {
+                // Validate new date is not in the past
+                if (dto.Date.Value < DateTime.UtcNow)
+                    throw new InvalidOperationException("Cannot update event to a date in the past.");
+                
                 eventToUpdate.Date = dto.Date.Value;
+            }
             if (!string.IsNullOrEmpty(dto.Description))
                 eventToUpdate.Description = dto.Description;
             

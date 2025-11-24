@@ -1,6 +1,9 @@
 using Eventra.DTOs;
 using Eventra.Services;
+using Eventra.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Eventra.Controllers;
 
@@ -49,8 +52,16 @@ public class UsersController(IUserService userService) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<IActionResult> GetById(int id)
     {
+        var requestingUserId = User.GetUserId();
+        var isAdmin = User.IsAdmin();
+
+        // User can only view their own profile unless they're an Admin
+        if (requestingUserId != id && !isAdmin)
+            return Forbid();
+
         var user = await _userService.GetByIdAsync(id);
         if (user == null)
             return NotFound(new { message = $"User with ID {id} not found." });
@@ -67,6 +78,7 @@ public class UsersController(IUserService userService) : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAll()
     {
         var users = await _userService.GetAllAsync();
@@ -81,8 +93,16 @@ public class UsersController(IUserService userService) : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDTO dto)
     {
+        var requestingUserId = User.GetUserId();
+        var isAdmin = User.IsAdmin();
+
+        // User can only update their own profile unless they're an Admin
+        if (requestingUserId != id && !isAdmin)
+            return Forbid(); // 403 error
+
         try
         {
             await _userService.UpdateAsync(id, dto);
@@ -99,8 +119,16 @@ public class UsersController(IUserService userService) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
+        var requestingUserId = User.GetUserId();
+        var isAdmin = User.IsAdmin();
+
+        // User can only delete their own account unless they're an Admin
+        if (requestingUserId != id && !isAdmin)
+            return Forbid();
+
         try
         {
             await _userService.DeleteAsync(id);
