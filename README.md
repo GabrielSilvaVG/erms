@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🎉 Eventra</h1>
+  <h1> Eventra</h1>
   <p><strong>API REST para Gerenciamento de Eventos e Inscrições</strong></p>
   
   ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)
@@ -10,21 +10,21 @@
 
 ---
 
-## 📋 Sobre o Projeto
+##  Sobre o Projeto
 
 **Eventra** é uma plataforma para criação, gerenciamento e inscrição em eventos. Sistema completo com backend REST API em .NET 9 e frontend em Next.js 14 (em desenvolvimento).
 
-### ✨ Principais Features
+###  Principais Features
 
-- 🔐 Autenticação JWT com 3 tipos de usuários (Admin, Organizer, Participant)
-- 🎫 Sistema de inscrições com controle de vagas
-- 🔒 Segurança com BCrypt e validações de autorização
-- 📊 Transações garantindo integridade dos dados
-- 🏗️ Arquitetura em camadas seguindo boas práticas
+-  Autenticação JWT com 3 tipos de usuários (Admin, Organizer, Participant)
+-  Sistema de inscrições com controle de vagas
+-  Segurança com BCrypt e validações de autorização
+-  Transações garantindo integridade dos dados
+-  Arquitetura em camadas seguindo boas práticas
 
 ---
 
-## 🚀 Tecnologias
+##  Tecnologias
 
 **Backend:** ASP.NET Core 9.0 • Entity Framework Core • MySQL 8.0 • JWT • BCrypt
 
@@ -32,7 +32,7 @@
 
 ---
 
-## 📁 Estrutura
+##  Estrutura
 
 ```
 Eventra/
@@ -48,7 +48,7 @@ Eventra/
 
 ---
 
-## ⚙️ Como Rodar
+##  Como Rodar
 
 ### Pré-requisitos
 - .NET 9 SDK
@@ -89,7 +89,7 @@ npm run dev
 
 ---
 
-## 📚 API - Principais Endpoints
+##  API - Principais Endpoints
 
 ### Autenticação
 ```http
@@ -116,7 +116,7 @@ DELETE /api/registrations/{id}             # Cancelar
 
 ---
 
-## 🏗️ Arquitetura
+##  Arquitetura
 
 ```
 Controllers → Services → Data (EF Core) → MySQL
@@ -128,20 +128,19 @@ Controllers → Services → Data (EF Core) → MySQL
 
 ---
 
-## 🎯 Funcionalidades
+##  Funcionalidades
 
-✅ **Usuários:** Registro, login JWT, perfil, exclusão com cascade  
-✅ **Eventos:** CRUD completo, 13 categorias, validação de datas  
-✅ **Inscrições:** Controle de vagas, prevenção de duplicatas, transações  
-✅ **Autorização:** Role-based (Admin/Organizer/Participant)
+**Usuários:** Registro, login JWT, perfil, exclusão com cascade  
+**Eventos:** CRUD completo, 13 categorias, validação de datas  
+**Inscrições:** Controle de vagas, prevenção de duplicatas, transações  
+**Autorização:** Role-based (Admin/Organizer/Participant)
 
 ---
 
-## 🛣️ Roadmap
+##  Roadmap
 
-**✅ Concluído:** Backend MVP completo  
-**🚧 Em desenvolvimento:** Frontend Next.js  
-**📅 Futuro:** Notificações • Upload de imagens • Filtros avançados • Paginação
+** Concluído:** Backend MVP completo  
+** Em desenvolvimento:** Frontend Next.js  
 
 ---
 
