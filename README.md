@@ -145,13 +145,3 @@ Controllers → Services → Data (EF Core) → MySQL
 
 ---
 
-## 👨‍💻 Autor
-
-**Gabriel Silva**  
-GitHub: [@GabrielSilvaVG](https://github.com/GabrielSilvaVG)
-
----
-
-<div align="center">
-  <p>⭐ Se gostou do projeto, dê uma estrela!</p>
-</div>
