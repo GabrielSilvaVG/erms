@@ -34,7 +34,7 @@ namespace Eventra.Services
             {
                 Title = dto.Title,
                 Type = dto.Type,
-                Location = dto.Location,
+                PlaceId = dto.PlaceId,
                 Date = dto.Date,
                 Description = dto.Description,
                 TotalSlots = dto.TotalSlots,
@@ -78,8 +78,8 @@ namespace Eventra.Services
             }
             if (dto.Type.HasValue)
                 eventToUpdate.Type = dto.Type.Value;
-            if (!string.IsNullOrEmpty(dto.Location))
-                eventToUpdate.Location = dto.Location;
+            if (!string.IsNullOrEmpty(dto.PlaceId))
+                eventToUpdate.PlaceId = dto.PlaceId;
             if (dto.Status.HasValue)
                 eventToUpdate.Status = dto.Status.Value;
             if (dto.Date.HasValue)

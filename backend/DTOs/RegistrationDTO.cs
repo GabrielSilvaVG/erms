@@ -18,7 +18,7 @@ namespace Eventra.DTOs
         public int EventId { get; set; }
         public string EventTitle { get; set; } = string.Empty;
         public DateTime EventDate { get; set; }
-        public string EventLocation { get; set; } = string.Empty;
+        public string EventPlaceId { get; set; } = string.Empty;  // Google Place ID
         public int ParticipantId { get; set; }
         public string ParticipantName { get; set; } = string.Empty;
         public string ParticipantEmail { get; set; } = string.Empty;
@@ -30,7 +30,7 @@ namespace Eventra.DTOs
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public string Location { get; set; } = string.Empty;
+        public string PlaceId { get; set; } = string.Empty;  // Google Place ID
         public string Status { get; set; } = string.Empty;
     }
 

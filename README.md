@@ -1,71 +1,89 @@
 <div align="center">
-  <h1> Eventra</h1>
-  <p><strong>API REST para Gerenciamento de Eventos e Inscrições</strong></p>
+  <h1>Eventra</h1>
+  <p><strong>Plataforma de Gerenciamento de Eventos e Inscrições</strong></p>
   
   <img src="https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white" />
-  <img src="https://img.shields.io/badge/.NET-6F42C1?style=flat-square&logo=dotnet&logoColor=white" />
-  <img src="https://img.shields.io/badge/MySQL-4B7DA9?style=flat-square&logo=mysql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Next.js-222222?style=flat-square&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/.NET_9-512BD4?style=flat-square&logo=dotnet&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Next.js_14-000000?style=flat-square&logo=nextdotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
 </div>
 
 ---
 
-##  Sobre o Projeto
+## Sobre o Projeto
 
-**Eventra** é uma plataforma para criação, gerenciamento e inscrição em eventos. Sistema completo com backend REST API em .NET 9 e frontend em Next.js 14 (em desenvolvimento).
+**Eventra** é uma plataforma para criação, gerenciamento e inscrição em eventos. Sistema completo com backend REST API em .NET 9 e frontend em Next.js 14.
 
-###  Principais Features
+### Principais Features
 
--  Autenticação JWT com 3 tipos de usuários (Admin, Organizer, Participant)
--  Sistema de inscrições com controle de vagas
--  Segurança com BCrypt e validações de autorização
--  Transações garantindo integridade dos dados
--  Arquitetura em camadas seguindo boas práticas
-
----
-
-##  Tecnologias
-
-**Backend:** ASP.NET Core 9.0 • Entity Framework Core • MySQL 8.0 • JWT • BCrypt
-
-**Frontend:** Next.js 14 • TypeScript • Tailwind CSS *(em desenvolvimento)*
+- 🔐 Autenticação JWT com 3 tipos de usuários (Admin, Organizer, Participant)
+- 📍 Localização de eventos via Google Place ID
+- 🎟️ Sistema de inscrições com controle de vagas
+- 🔒 Segurança com BCrypt e validações de autorização
+- ⚡ Transações garantindo integridade dos dados
 
 ---
 
-##  Estrutura
+## Tecnologias
+
+### Backend
+- ASP.NET Core 9.0
+- Entity Framework Core
+- MySQL 8.0
+- JWT Authentication
+- BCrypt
+
+### Frontend
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Axios
+- Context API
+
+### Integrações
+- Google Places API (localização via Place ID)
+
+---
+
+## Estrutura
 
 ```
 Eventra/
 ├── backend/
 │   ├── Controllers/        # Endpoints (Users, Events, Registrations)
-│   ├── Services/          # Lógica de negócio
-│   ├── Models/            # Entidades
-│   ├── DTOs/              # Data Transfer Objects
-│   └── Data/              # EF Core DbContext
+│   ├── Services/           # Lógica de negócio
+│   ├── Models/             # Entidades
+│   ├── DTOs/               # Data Transfer Objects
+│   └── Data/               # EF Core DbContext
 └── frontend/
-    └── src/               # Next.js App Router
+    └── src/
+        ├── app/            # Next.js App Router
+        ├── components/     # Componentes React
+        ├── contexts/       # AuthContext
+        ├── services/       # Chamadas API (Axios)
+        └── types/          # Interfaces TypeScript
 ```
 
 ---
 
-##  Como Rodar
+## Como Rodar
 
 ### Pré-requisitos
 - .NET 9 SDK
 - MySQL 8.0+
-- Node.js 18+ (para o frontend)
+- Node.js 18+
+- Chave da Google Places API (opcional, para autocomplete de endereço)
 
 ### Backend
 
-1. Clone e configure:
 ```bash
 git clone https://github.com/GabrielSilvaVG/Eventra.git
 cd Eventra/backend
 ```
 
-2. Edite `appsettings.json` com suas credenciais MySQL:
+Configure `appsettings.json`:
 ```json
 {
   "ConnectionStrings": {
@@ -74,13 +92,13 @@ cd Eventra/backend
 }
 ```
 
-3. Execute:
+Execute:
 ```bash
 dotnet ef database update
-dotnet run
+$env:ASPNETCORE_ENVIRONMENT="Development"; dotnet run
 ```
 
-**API disponível em:** `https://localhost:5001` | **Swagger:** `https://localhost:5001/swagger`
+**API:** `https://localhost:5001` | **Swagger:** `https://localhost:5001/swagger`
 
 ### Frontend
 ```bash
@@ -89,65 +107,107 @@ npm install
 npm run dev
 ```
 
+**App:** `http://localhost:3000`
+
 ---
 
-##  API - Principais Endpoints
+## API - Endpoints
 
-### Autenticação
-```http
-POST /api/users/register
-POST /api/users/login
-```
+### Usuários
+| Método | Rota | Descrição | Acesso |
+|--------|------|-----------|--------|
+| POST | `/api/users/register` | Cadastrar | Público |
+| POST | `/api/users/login` | Login (retorna JWT) | Público |
+| GET | `/api/users/{id}` | Buscar usuário | Próprio/Admin |
+| GET | `/api/users` | Listar todos | Admin |
+| PUT | `/api/users/{id}` | Atualizar | Próprio/Admin |
+| DELETE | `/api/users/{id}` | Deletar | Próprio/Admin |
 
 ### Eventos
-```http
-GET  /api/events              # Listar (público)
-POST /api/events              # Criar (Organizer/Admin)
-PUT  /api/events/{id}         # Editar (dono ou Admin)
-DELETE /api/events/{id}       # Deletar (dono ou Admin)
-```
+| Método | Rota | Descrição | Acesso |
+|--------|------|-----------|--------|
+| GET | `/api/events` | Listar eventos | Público |
+| GET | `/api/events/{id}` | Detalhes | Público |
+| POST | `/api/events` | Criar | Organizer/Admin |
+| PUT | `/api/events/{id}` | Editar | Dono/Admin |
+| DELETE | `/api/events/{id}` | Deletar | Dono/Admin |
 
 ### Inscrições
-```http
-POST /api/registrations                    # Inscrever (Participant)
-GET  /api/registrations/my-registrations   # Minhas inscrições
-DELETE /api/registrations/{id}             # Cancelar
-```
-
-**Documentação completa:** Acesse o Swagger após rodar o backend
-
----
-
-##  Arquitetura
-
-```
-Controllers → Services → Data (EF Core) → MySQL
-```
-
-**Padrões:** Repository Pattern • Dependency Injection • DTOs • Extension Methods
-
-**Segurança:** JWT com roles • Validações de propriedade • Admin override • Transações ACID
+| Método | Rota | Descrição | Acesso |
+|--------|------|-----------|--------|
+| POST | `/api/registrations` | Inscrever-se | Participant |
+| GET | `/api/registrations/my-registrations` | Minhas inscrições | Participant |
+| GET | `/api/registrations/event/{eventId}` | Inscritos no evento | Autenticado |
+| DELETE | `/api/registrations/{id}` | Cancelar | Próprio/Admin |
 
 ---
 
-##  Funcionalidades
+## Modelos de Dados
 
-**Usuários:** Registro, login JWT, perfil, exclusão com cascade  
-**Eventos:** CRUD completo, 13 categorias, validação de datas  
-**Inscrições:** Controle de vagas, prevenção de duplicatas, transações  
-**Autorização:** Role-based (Admin/Organizer/Participant)
+### Event
+```typescript
+{
+  id: number
+  title: string
+  type: EventType          // Conference, Workshop, Seminar, etc.
+  placeId: string          // Google Place ID para localização
+  status: EventStatus      // Scheduled, Ongoing, Completed, Cancelled
+  date: DateTime
+  description?: string
+  totalSlots: number
+  availableSlots: number
+  organizer: { id, name, email }
+}
+```
+
+### User
+```typescript
+{
+  id: number
+  name: string
+  email: string
+  userType: UserType       // Admin (0), Organizer (1), Participant (2)
+}
+```
 
 ---
 
-##  Roadmap
+## Permissões
 
-** Concluído:** Backend MVP completo  
-** Em desenvolvimento:** Frontend Next.js  
+| Ação | Admin | Organizer | Participant |
+|------|-------|-----------|-------------|
+| Gerenciar usuários | ✅ | ❌ | ❌ |
+| Criar eventos | ✅ | ✅ | ❌ |
+| Editar qualquer evento | ✅ | ❌ | ❌ |
+| Editar próprio evento | ✅ | ✅ | ❌ |
+| Inscrever-se | ❌ | ❌ | ✅ |
 
-> **Observação:** O Swagger (documentação da API) só está disponível em ambiente de desenvolvimento.
-> Para acessar, rode o backend com:
-> ```
-> $env:ASPNETCORE_ENVIRONMENT="Development"; dotnet run
-> ```
-> Depois acesse: `https://localhost:5001/swagger`
+---
+
+## Arquitetura
+
+```
+Frontend (Next.js) → API REST → Controllers → Services → EF Core → MySQL
+                        ↓
+                   JWT + Roles
+```
+
+**Padrões:** Service Layer • Dependency Injection • DTOs • Role-based Auth
+
+---
+
+## Roadmap
+
+- [x] Backend MVP
+- [x] Autenticação JWT
+- [x] Sistema de inscrições
+- [x] Integração Google Place ID
+- [ ] Frontend completo
+- [ ] Deploy
+
+---
+
+<div align="center">
+  <sub>Desenvolvido por <a href="https://github.com/GabrielSilvaVG">Gabriel Silva</a></sub>
+</div>
 

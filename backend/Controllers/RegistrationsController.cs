@@ -32,7 +32,7 @@ public class RegistrationsController(IRegistrationService registrationService) :
                 EventId = registration.EventId,
                 EventTitle = registration.Event.Title,
                 EventDate = registration.Event.Date,
-                EventLocation = registration.Event.Location,
+                EventPlaceId = registration.Event.PlaceId,
                 ParticipantId = registration.ParticipantId,
                 ParticipantName = registration.Participant.Name,
                 ParticipantEmail = registration.Participant.Email
@@ -68,7 +68,7 @@ public class RegistrationsController(IRegistrationService registrationService) :
             EventId = r.EventId,
             EventTitle = r.Event.Title,
             EventDate = r.Event.Date,
-            EventLocation = r.Event.Location,
+            EventPlaceId = r.Event.PlaceId,
             ParticipantId = r.ParticipantId,
             ParticipantName = r.Participant.Name,
             ParticipantEmail = r.Participant.Email
@@ -93,7 +93,7 @@ public class RegistrationsController(IRegistrationService registrationService) :
             EventId = registration.EventId,
             EventTitle = registration.Event.Title,
             EventDate = registration.Event.Date,
-            EventLocation = registration.Event.Location,
+            EventPlaceId = registration.Event.PlaceId,
             ParticipantId = registration.ParticipantId,
             ParticipantName = registration.Participant.Name,
             ParticipantEmail = registration.Participant.Email
@@ -130,7 +130,7 @@ public class RegistrationsController(IRegistrationService registrationService) :
             Id = r.EventId,
             Title = r.Event.Title,
             Date = r.Event.Date,
-            Location = r.Event.Location,
+            PlaceId = r.Event.PlaceId,
             Status = r.Event.Status.ToString()
         });
 
@@ -150,7 +150,7 @@ public class RegistrationsController(IRegistrationService registrationService) :
             Id = r.EventId,
             Title = r.Event.Title,
             Date = r.Event.Date,
-            Location = r.Event.Location,
+            PlaceId = r.Event.PlaceId,
             Status = r.Event.Status.ToString()
         });
 

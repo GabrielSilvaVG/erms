@@ -18,8 +18,8 @@ namespace Eventra.Models
         public EventType Type { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Location { get; set; } = string.Empty;
+        [StringLength(255)]
+        public string PlaceId { get; set; } = string.Empty;  // Google Place ID
 
         [Required]
         public EventStatus Status { get; set; } = EventStatus.Scheduled;
