@@ -1,6 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using Eventra.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Eventra.Services
@@ -8,6 +10,17 @@ namespace Eventra.Services
     public class JwtService(IConfiguration configuration)
     {
         private readonly IConfiguration _configuration = configuration;
+
+        public RefreshToken GenerateRefreshToken(int userId)
+        {
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                ExpiresAt = DateTime.UtcNow.AddDays(7), // 7 dias
+                CreatedAt = DateTime.UtcNow,
+                UserId = userId
+            };
+        }
 
         public string GenerateToken(int userId, string email, string userType)
         {
@@ -33,6 +46,8 @@ namespace Eventra.Services
                     int.Parse(_configuration["Jwt:ExpirationInMinutes"] ?? "1440")),
                 signingCredentials: credentials
             );
+
+            
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

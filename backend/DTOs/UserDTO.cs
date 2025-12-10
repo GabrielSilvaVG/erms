@@ -62,7 +62,14 @@ namespace Eventra.DTOs
     // DTO for authentication response with token
     public class AuthResponseDTO
     {
-        public string Token { get; set; } = string.Empty;
+        public string AccessToken { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = string.Empty;
         public UserResponseDTO User { get; set; } = null!;
+    }
+
+    public class RefreshTokenDTO
+    {
+        [Required]
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }

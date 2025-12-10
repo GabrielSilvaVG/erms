@@ -69,11 +69,18 @@ namespace Eventra.Services
             }
 
             // Generate JWT token
-            string token = _jwtService.GenerateToken(
+            string accessToken = _jwtService.GenerateToken(
                 user.Id, 
                 user.Email, 
                 user.UserType.ToString()
             );
+
+            // Generate refresh token
+            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            
+            // Save refresh token to database
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync();
 
             var userResponse = new UserResponseDTO
             {
@@ -85,9 +92,64 @@ namespace Eventra.Services
 
             return new AuthResponseDTO
             {
-                Token = token,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken.Token,
                 User = userResponse
             };
+        }
+
+        // refresh token - generate new tokens
+        public async Task<AuthResponseDTO> RefreshTokenAsync(string refreshToken)
+        {
+            // Find the refresh token in database
+            var storedToken = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            // Validate token
+            if (storedToken == null)
+                throw new UnauthorizedAccessException("Invalid refresh token.");
+
+            if (!storedToken.IsActive)
+                throw new UnauthorizedAccessException("Token expired or revoked.");
+
+            // Revoke old token (rotation - each token can only be used once)
+            storedToken.RevokedAt = DateTime.UtcNow;
+
+            // Generate new tokens
+            var user = storedToken.User;
+            var newAccessToken = _jwtService.GenerateToken(user.Id, user.Email, user.UserType.ToString());
+            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id);
+
+            // Save new refresh token
+            _context.RefreshTokens.Add(newRefreshToken);
+            await _context.SaveChangesAsync();
+
+            return new AuthResponseDTO
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken.Token,
+                User = new UserResponseDTO
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    UserType = user.UserType
+                }
+            };
+        }
+
+        // logout - revoke refresh token
+        public async Task LogoutAsync(string refreshToken)
+        {
+            var token = await _context.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (token != null)
+            {
+                token.RevokedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
         }
 
         // user by id

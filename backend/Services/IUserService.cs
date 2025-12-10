@@ -7,6 +7,8 @@ namespace Eventra.Services
     {
         Task<User> RegisterAsync(RegisterUserDTO dto);
         Task<AuthResponseDTO> LoginAsync(LoginDTO dto);
+        Task<AuthResponseDTO> RefreshTokenAsync(string refreshToken);
+        Task LogoutAsync(string refreshToken);
         Task<User?> GetByIdAsync(int id);
         Task<IEnumerable<User>> GetAllAsync();
         Task UpdateAsync(int id, UpdateUserDTO dto);

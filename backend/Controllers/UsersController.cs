@@ -139,4 +139,26 @@ public class UsersController(IUserService userService) : ControllerBase
             return NotFound(new { message = ex.Message });
         }
     }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDTO dto)
+    {
+        try
+        {
+            var authResponse = await _userService.RefreshTokenAsync(dto.RefreshToken);
+            return Ok(authResponse);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+    }
+
+    [HttpPost("logout")]
+    [Authorize]
+    public async Task<IActionResult> Logout([FromBody] RefreshTokenDTO dto)
+    {
+        await _userService.LogoutAsync(dto.RefreshToken);
+        return NoContent();
+    }
 }
