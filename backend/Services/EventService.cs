@@ -63,6 +63,27 @@ namespace Eventra.Services
             return events;
         }
 
+        // all events with pagination
+        public async Task<PagedResultDTO<Event>> GetAllPagedAsync(int page, int pageSize)
+        {
+            var totalCount = await _context.Events.CountAsync();
+            
+            var events = await _context.Events
+                .Include(e => e.Organizer)
+                .OrderByDescending(e => e.Date)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResultDTO<Event>
+            {
+                Items = events,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            };
+        }
+
         // update event
         public async Task UpdateAsync(int id, UpdateEventDTO dto)
         {

@@ -8,6 +8,7 @@ namespace Eventra.Services
         Task<Event> CreateAsync(CreateEventDTO dto);
         Task<Event?> GetByIdAsync(int id);
         Task<IEnumerable<Event>> GetAllAsync();
+        Task<PagedResultDTO<Event>> GetAllPagedAsync(int page, int pageSize);
         Task UpdateAsync(int id, UpdateEventDTO dto);
         Task DeleteAsync(int id);
     }

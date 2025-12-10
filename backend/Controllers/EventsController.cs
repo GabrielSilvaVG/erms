@@ -49,10 +49,14 @@ public class EventsController(IEventService eventService) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllEvents()
+    public async Task<IActionResult> GetAllEvents([FromQuery] int page = 1)
     {
-        var events = await _eventService.GetAllAsync();
-        return Ok(events);
+        if (page < 1)
+            return BadRequest(new { message = "Page must be greater than or equal to 1." });
+
+        const int pageSize = 20;
+        var pagedEvents = await _eventService.GetAllPagedAsync(page, pageSize);
+        return Ok(pagedEvents);
     }
 
     [HttpPut("{id}")]
