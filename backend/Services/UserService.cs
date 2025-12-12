@@ -244,7 +244,8 @@ namespace Eventra.Services
                     _context.Events.RemoveRange(events);
                 }
 
-                _context.Users.Remove(user);
+                user.IsDeleted = true;
+                user.DeletedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync(); // Confirm the transaction
             }

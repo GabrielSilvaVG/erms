@@ -37,6 +37,9 @@ namespace Eventra.Models
         public bool IsDeleted { get; set; } = false;
 
         public DateTime? DeletedAt { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
         public int OccupiedSlots { get; set; } = 0;
 

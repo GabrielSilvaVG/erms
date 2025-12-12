@@ -6,6 +6,7 @@ namespace Eventra.Models
 {
     public abstract class User
     {
+        
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -19,10 +20,19 @@ namespace Eventra.Models
         [StringLength(60)]
         public string Email { get; set; } = string.Empty;
 
+        
         [Required]
         [StringLength(255)]
         public string PasswordHash { get; set; } = string.Empty;
 
+        [Required]
+        public bool IsDeleted { get; set; } = false;
+
+        public DateTime? DeletedAt { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
         [Required]
         public UserType UserType { get; protected set; }
     }
