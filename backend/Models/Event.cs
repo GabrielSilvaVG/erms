@@ -32,6 +32,11 @@ namespace Eventra.Models
 
         [Required]
         public int TotalSlots { get; set; }
+
+        [Required]
+        public bool IsDeleted { get; set; } = false;
+
+        public DateTime? DeletedAt { get; set; }
     
         public int OccupiedSlots { get; set; } = 0;
 

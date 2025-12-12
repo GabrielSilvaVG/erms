@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventra", "Eventra.csproj", "{4A431659-8AEA-67D9-B080-201890309560}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A431659-8AEA-67D9-B080-201890309560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A431659-8AEA-67D9-B080-201890309560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A431659-8AEA-67D9-B080-201890309560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A431659-8AEA-67D9-B080-201890309560}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F72FA2DF-EE44-431D-ABD7-7042C28189CE}
+	EndGlobalSection
+EndGlobal

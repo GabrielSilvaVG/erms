@@ -246,11 +246,11 @@ namespace Eventra.Services
 
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
-                await transaction.CommitAsync(); // Confirma tudo
+                await transaction.CommitAsync(); // Confirm the transaction
             }
             catch
             {
-                await transaction.RollbackAsync(); // Desfaz tudo se der erro
+                await transaction.RollbackAsync(); // Rollback the transaction if an error occurs
                 throw ;
             }
         }

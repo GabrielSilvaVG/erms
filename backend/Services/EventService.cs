@@ -132,17 +132,20 @@ namespace Eventra.Services
         public async Task DeleteAsync(int id)
         {
             var eventToDelete = await _context.Events
-                .Include(e => e.Registrations)
+                .Include(e => e.Registrations)// 
                 .FirstOrDefaultAsync(e => e.Id == id)
                 ?? throw new KeyNotFoundException($"Event with ID {id} not found.");
             
             // Remove all registrations first (cascade delete)
             if (eventToDelete.Registrations.Count != 0)
             {
-                _context.Registrations.RemoveRange(eventToDelete.Registrations);
+                _context.Registrations.RemoveRange(eventToDelete.Registrations);// remove all
             }
-            
-            _context.Events.Remove(eventToDelete);
+
+            // Soft delete the event
+            eventToDelete.IsDeleted = true;
+            eventToDelete.DeletedAt = DateTime.UtcNow;
+                        
             await _context.SaveChangesAsync();
         }
     }
