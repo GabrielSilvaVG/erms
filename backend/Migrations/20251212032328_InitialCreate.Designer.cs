@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251210193221_RenameLocationToPlaceId")]
-    partial class RenameLocationToPlaceId
+    [Migration("20251212032328_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,12 +33,21 @@ namespace Eventra.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("OccupiedSlots")
                         .HasColumnType("int");
@@ -70,6 +79,37 @@ namespace Eventra.Migrations
                     b.HasIndex("OrganizerId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Eventra.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Eventra.Models.Registration", b =>
@@ -106,10 +146,19 @@ namespace Eventra.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -143,9 +192,11 @@ namespace Eventra.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedAt = new DateTime(2025, 12, 12, 3, 23, 27, 796, DateTimeKind.Utc).AddTicks(8142),
                             Email = "admin@Eventra.com",
+                            IsDeleted = false,
                             Name = "Administrator",
-                            PasswordHash = "$2a$11$15oBeR1jvhcWWgFDkHZu3uynIyYvQhUmyQgn3naUE23bKgVkJBlXy",
+                            PasswordHash = "$2a$11$UtEzg4D1QYJCg2U4w2q3FuNthsxvLNOE0B2dzg.KNGz9WfafftpZ6",
                             UserType = 0
                         });
                 });
@@ -173,6 +224,17 @@ namespace Eventra.Migrations
                         .IsRequired();
 
                     b.Navigation("Organizer");
+                });
+
+            modelBuilder.Entity("Eventra.Models.RefreshToken", b =>
+                {
+                    b.HasOne("Eventra.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Eventra.Models.Registration", b =>
