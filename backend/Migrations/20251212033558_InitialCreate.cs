@@ -128,7 +128,7 @@ namespace Eventra.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "DeletedAt", "Email", "IsDeleted", "Name", "PasswordHash", "UserType" },
-                values: new object[] { 1, new DateTime(2025, 12, 12, 3, 23, 27, 796, DateTimeKind.Utc).AddTicks(8142), null, "admin@Eventra.com", false, "Administrator", "$2a$11$UtEzg4D1QYJCg2U4w2q3FuNthsxvLNOE0B2dzg.KNGz9WfafftpZ6", 0 });
+                values: new object[] { 1, new DateTime(2025, 12, 12, 0, 35, 58, 13, DateTimeKind.Unspecified).AddTicks(8369), null, "admin@Eventra.com", false, "Administrator", "$2a$11$QQTtRzxxWI1oPnY.Y84FdugXAQbOesjS37x5iTHtUdVf9SyK71wN.", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_OrganizerId",

@@ -31,8 +31,8 @@ namespace Eventra.Models
         public DateTime? DeletedAt { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        
+        public DateTime CreatedAt { get; set; } = Utils.DateTimeUtils.NowBrasilia();
+
         [Required]
         public UserType UserType { get; protected set; }
     }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251212032328_InitialCreate")]
+    [Migration("20251212033558_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -192,11 +192,11 @@ namespace Eventra.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 12, 3, 23, 27, 796, DateTimeKind.Utc).AddTicks(8142),
+                            CreatedAt = new DateTime(2025, 12, 12, 0, 35, 58, 13, DateTimeKind.Unspecified).AddTicks(8369),
                             Email = "admin@Eventra.com",
                             IsDeleted = false,
                             Name = "Administrator",
-                            PasswordHash = "$2a$11$UtEzg4D1QYJCg2U4w2q3FuNthsxvLNOE0B2dzg.KNGz9WfafftpZ6",
+                            PasswordHash = "$2a$11$QQTtRzxxWI1oPnY.Y84FdugXAQbOesjS37x5iTHtUdVf9SyK71wN.",
                             UserType = 0
                         });
                 });
